@@ -1,0 +1,166 @@
+<div class="container">
+  <div class="row p-5">
+    <div class="btn-group" role="group">
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="activeButton === 1"
+        [class.btn-secondary]="activeButton === 2"
+        (click)="changeColor(1)"
+      >
+        Three Teams
+      </button>
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="activeButton === 2"
+        [class.btn-secondary]="activeButton === 1"
+        (click)="changeColor(2)"
+      >
+        Four Teams
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="margin-bottom: 20px">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-12 text-center">All Players</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        @for (player of allPlayers; track $index) {
+        <div class="list-group p-1">
+          <button
+            type="button"
+            class="list-group-item list-group-item-action {{
+              disabledButtons[$index] ? 'text-white bg-secondary ' : ''}}"
+            (click)="toggleButton($index)"
+          >
+            <div class="row">
+              <div class="col-3">
+                {{ $index + 1 }}
+              </div>
+              <div class="col-4 overflow-hidden text-nowrap text-truncate">
+                {{ player.name }}
+              </div>
+              <div class="col-5 text-end">
+                {{ player.overall_grade }}
+              </div>
+            </div>
+          </button>
+        </div>
+
+        }
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center p-3">
+        <button class="btn btn-outline-success" (click)="makeForamtion()">
+          Make Foramtion
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+@if (showContext == 1) {
+<div class="container">
+  <div class="card">
+    <div class="row p-5">
+      @for (team of teams; track $index) {
+      <div class="col-md-{{ colNumber }} p-2">
+        <div class="card" >
+          <div class="card-header" [style.background-color]="team.teamColor">
+            <div class="row">
+              <div class="col-12 text-center" >Team {{ $index + 1 }}</div>
+              <div class="row">
+                <div class="col-12 text-center fw-bold">
+                  Average {{ team.averageGrade }}
+                </div>
+              </div>
+            </div>
+          </div>
+          @for (player of team.team; track $index) {
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6 overflow-hidden text-nowrap text-truncate">{{ player.name }}</div>
+              <div class="col-6 text-end">{{ player.overall_grade }}</div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      }
+      <!-- <div class="col-{{ colNumber }}">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-12 text-center">Team 2</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6 text-end">Average</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-{{ colNumber }}">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-12 text-center">Team 3</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6 text-end">Average</div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- @if (activeTeams == 4 && allPlayers.length == 20) {
+      <div class="col-{{ colNumber }}">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-12 text-center">Team 4</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6">Name</div>
+              <div class="col-6 text-end">Average</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      } -->
+    </div>
+  </div>
+</div>
+}
+
+
+ <div class="modal" id="myModal" #myModal >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Message</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+          </div>
+          <div class="modal-body">
+            {{ Message }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
