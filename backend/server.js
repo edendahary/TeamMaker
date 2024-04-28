@@ -129,7 +129,7 @@ app.post("/sendVerificationCode", async (req, res) => {
     const verificationCode = generateVerificationCode();
 
     const mailOptions = {
-      from: "edendahary@gmail.com",
+      from: process.env.USER_NAME,
       to: email,
       subject: "Verification Code",
       text: `Your verification code is: ${verificationCode}`,
