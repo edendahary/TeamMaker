@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const { userName, passWord } = require("./config");
 
 const app = express();
 const PORT = 3000;
@@ -100,15 +101,16 @@ app.delete("/api/deleteplayer/:id", async (req, res) => {
     res.status(500).json({ message: "Failed to delete player" });
   }
 });
-
+console.log(process.env);
+console.log(passWord);
 const transporter = nodemailer.createTransport({
   // need to implement env file for email and password. and to save the account in the database!!
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
   auth: {
-    user: "edendahary@gmail.com",
-    pass: "dlxa mdqq eyal zwaq",
+    user: process.env.USER_NAME,
+    pass: process.env.PASS_WORD,
   },
 });
 
