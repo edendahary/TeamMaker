@@ -1,21 +1,38 @@
 <div>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <div class="container-fluid">
-    <ul class="navbar-nav flex-row">
-      <li class="nav-item me-3">
-        <a class="nav-link active" routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" routerLink="/teams" routerLinkActive="active" ariaCurrentWhenActive="page">Teams</a>
-      </li>
-    </ul>
-  </div>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <ul class="navbar-nav flex-row">
+        <li class="nav-item me-3">
+          <a
+            class="nav-link active"
+            routerLink="/"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            routerLink="/teams"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            >Teams</a
+          >
+        </li>
+        </ul>
+        @if (isUserLoggedIn) {
+        <ul class="navbar-nav flex-row ms-auto">
+          <li class="nav-item">
+            <button class="nav-link btn btn-link" (click)="logout()">
+              Log Out
+            </button>
+          </li>
+        </ul>
+        }
+    </div>
   </nav>
   <div class="container">
     <router-outlet></router-outlet>
   </div>
-  </div>
-
-
-  
-    
+</div>

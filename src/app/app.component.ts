@@ -1,18 +1,34 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
-import { TeamsComponent } from './teams/teams.component';
-import { HomeComponent } from './home/home.component';
 import { CommonModule } from '@angular/common';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,FormsModule,RouterModule,CommonModule,RouterLink,RouterLinkActive],
+  imports: [
+    RouterOutlet,
+    FormsModule,
+    RouterModule,
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    LoginComponent,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
+  constructor(private authService: AuthService) {}
 
+  get isUserLoggedIn(): boolean {
+    return this.authService.getIsLoggedIn();
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }
   
