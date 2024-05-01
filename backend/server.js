@@ -3,13 +3,15 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
-const { userName, passWord } = require("./config");
-
+const dotenv = require("dotenv")
 const app = express();
-const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+dotenv.config();
+const port = process.env.PORT;
+const userName = process.env.USER_NAME;
+const passWord = process.env.PASS_WORD;
 
 // MongoDB connection
 mongoose.connect("mongodb://localhost:27017/angularapp");
@@ -101,16 +103,15 @@ app.delete("/api/deleteplayer/:id", async (req, res) => {
     res.status(500).json({ message: "Failed to delete player" });
   }
 });
-console.log(process.env);
-console.log(passWord);
+
 const transporter = nodemailer.createTransport({
   // need to implement env file for email and password. and to save the account in the database!!
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
   auth: {
-    user: process.env.USER_NAME,
-    pass: process.env.PASS_WORD,
+    user: userName,
+    pass: passWord,
   },
 });
 
@@ -129,7 +130,7 @@ app.post("/sendVerificationCode", async (req, res) => {
     const verificationCode = generateVerificationCode();
 
     const mailOptions = {
-      from: process.env.USER_NAME,
+      from: userName,
       to: email,
       subject: "Verification Code",
       text: `Your verification code is: ${verificationCode}`,
@@ -153,6 +154,6 @@ app.post("/sendVerificationCode", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
