@@ -42,7 +42,6 @@ export class TeamsComponent implements OnInit {
       return { name, overall_grade };
     });
     this.allPlayers.sort((a, b) => b.overall_grade - a.overall_grade);
-
   }
   async getPlayers(): Promise<any[]> {
     const response = await axios.get(this.apiUrl + 'players');
@@ -50,12 +49,12 @@ export class TeamsComponent implements OnInit {
   }
 
   changeColor(buttonNumber: number) {
-    this.showContext =0;
-    if (buttonNumber != this.activeButton){
+    this.showContext = 0;
+    if (buttonNumber != this.activeButton) {
       if (this.allPlayers.length == 20 && buttonNumber == 2) {
         this.activeButton = 2;
         this.activeTeams = 4;
-      }else if (this.allPlayers.length == 20 && buttonNumber == 1) {
+      } else if (this.allPlayers.length == 20 && buttonNumber == 1) {
         this.activeButton = 1;
         this.activeTeams = 3;
       } else {
@@ -80,66 +79,67 @@ export class TeamsComponent implements OnInit {
   }
   makeForamtion() {
     debugger;
-       const indices = this.disabledButtons.reduce(
-         (acc: number[], el, index) => {
-           if (el) {
-             acc.push(index + 1);
-           }
-           return acc;
-         },
-         []
-       );
+    const indices = this.disabledButtons.reduce((acc: number[], el, index) => {
+      if (el) {
+        acc.push(index + 1);
+      }
+      return acc;
+    }, []);
     if (this.allPlayers.length < 15) {
       this.Message = 'You dont have 15 players. Please add more';
       this.openModal();
       this.showContext = 0;
-    } else if ((this.allPlayers.length > 15)) {
-      if (this.activeTeams == 4 && (this.allPlayers.length - indices.length < 20)){
-            this.Message =
-              'You have mark too much players.';
-            this.openModal();
-            this.showContext = 0;
+    } else if (this.allPlayers.length > 15) {
+      if (
+        this.activeTeams == 4 &&
+        this.allPlayers.length - indices.length < 20
+      ) {
+        this.Message = 'You have mark too much players.';
+        this.openModal();
+        this.showContext = 0;
       }
-        if (this.allPlayers.length - indices.length == 15) {
-          // this.threeTeam = allPlayers.allPlayers.filter(obj1 => !indices.some(obj2 => obj1.id === obj2));
-          this.threeTeam = this.allPlayers.filter(
-            (obj1, index) => indices.indexOf(index + 1) === -1
-          );
-          this.SuffleFormation(this.threeTeam);
-          this.showContext = 1;
-        } else if (this.allPlayers.length - indices.length < 15) {
-          this.Message =
-            'You have mark too much players.';
-          this.openModal();
-          this.showContext = 0;
-        }else if(this.activeTeams == 4 && (this.allPlayers.length - indices.length) == 20){
-             this.SuffleFormation(this.allPlayers);
-             this.showContext = 1;
+      if (this.allPlayers.length - indices.length == 15) {
+        // this.threeTeam = allPlayers.allPlayers.filter(obj1 => !indices.some(obj2 => obj1.id === obj2));
+        this.threeTeam = this.allPlayers.filter(
+          (obj1, index) => indices.indexOf(index + 1) === -1
+        );
+        this.SuffleFormation(this.threeTeam);
+        this.showContext = 1;
+      } else if (this.allPlayers.length - indices.length < 15) {
+        this.Message = 'You have mark too much players.';
+        this.openModal();
+        this.showContext = 0;
+      } else if (
+        this.activeTeams == 4 &&
+        this.allPlayers.length - indices.length == 20
+      ) {
+        this.SuffleFormation(this.allPlayers);
+        this.showContext = 1;
+      } else {
+        if (this.activeTeams == 4) {
+          this.Message = 'You have less then 20 player.';
         } else {
-          if(this.activeTeams == 4){
-            this.Message =
-              'You have less then 20 player.';
-            }else{
-            this.Message =
-              'You have more then 15 players for three teams. Please mark the player you dont want in the formation.';
-          }
- 
-          this.openModal();
-          this.showContext = 0;
+          this.Message =
+            'You have more then 15 players for three teams. Please mark the player you dont want in the formation.';
         }
+
+        this.openModal();
+        this.showContext = 0;
+      }
     } else if (this.allPlayers.length < 20 && this.activeTeams == 4) {
       this.Message = 'You dont have 20 player. Please add more';
       this.openModal();
     } else {
-      if (this.allPlayers.length == 20 && this.activeTeams == 3){
-        this.Message = 'You have 20 players for Three teams. Please mark the players you dont want or change to Four teams';
+      if (this.allPlayers.length == 20 && this.activeTeams == 3) {
+        this.Message =
+          'You have 20 players for Three teams. Please mark the players you dont want or change to Four teams';
         this.openModal();
         this.showContext = 0;
-      }else{
-      // Initialize three empty teams
-      this.SuffleFormation(this.allPlayers);
-      this.showContext = 1;
-    }
+      } else {
+        // Initialize three empty teams
+        this.SuffleFormation(this.allPlayers);
+        this.showContext = 1;
+      }
     }
   }
 
@@ -173,5 +173,8 @@ export class TeamsComponent implements OnInit {
     this.teams.forEach((team, index) => {
       team.teamColor = this.colors[index % this.colors.length];
     });
+  }
+  algoSuffleFormation(playerArray: Player[]) {
+    
   }
 }

@@ -1,0 +1,105 @@
+<div class="container">
+  @if (!isRegister) {
+<div class="card p-3">
+    <h2 style="text-align: center;">Login</h2>
+    <form (ngSubmit)="login()" ngNativeValidate #form>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" autocomplete name="email" [(ngModel)]="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" class="form-control" [(ngModel)]="password">
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="button" class="btn btn-link" (click)="toggleForm()">Register</button>
+    </form>
+</div>
+}@else {
+<div class="card p-3">
+    <h2 style="text-align: center;">Register</h2>
+    <form (ngSubmit)="register()" ngNativeValidate #form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name" autocomplete [(ngModel)]="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" autocomplete [(ngModel)]="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" autocomplete [(ngModel)]="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="button" class="btn btn-link" (click)="toggleForm()">Back to Login</button>
+    </form>
+  </div>
+}
+
+</div>
+
+
+ <div class="modal" id="VerificationModal" #VerificationModal style="margin-top: 150px">
+    <div class="modal-dialog text-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Verification Code</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="closeModal()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form ngNativeValidate #form>
+                    <input type="number" class="form-control" id="Verification" name="Verification" [(ngModel)]="verificationCode" required>
+          </form>
+
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button
+            type="button"
+            class="btn btn-success text-center"
+            data-bs-dismiss="modal"
+            (click)="VerificationCode()"
+          >
+            Verify
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+   <div class="modal" id="modelError" #modelError style="margin-top: 150px">
+    <div class="modal-dialog text-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Message</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="closeError()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          {{ Message }}
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            (click)="closeError()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

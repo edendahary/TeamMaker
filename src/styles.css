@@ -1,8 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
 body {
-  background-color: azure;
+  background-image: url('assets/images/img2.jpg');
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-attachment: fixed; /* Fixes the background position */
 }
-
 
 /* Default styles */
 .my-element {
