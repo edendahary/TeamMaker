@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import axios from 'axios';
 
-
 @Component({
   selector: 'app-teams',
   standalone: true,
@@ -30,9 +29,11 @@ export class TeamsComponent implements OnInit {
   showContext = 0;
   activeButton = 1;
   activeTeams = 3;
+  counter = 1;
   colNumber = 4;
   allPlayers: Player[] = [];
   threeTeam: Player[] = [];
+  allTeams: any;
   teams: { team: Player[]; averageGrade: number; teamColor: string }[] = [];
   disabledButtons: boolean[] = [];
   async ngOnInit() {
@@ -78,7 +79,6 @@ export class TeamsComponent implements OnInit {
     this.disabledButtons[index] = !this.disabledButtons[index];
   }
   makeForamtion() {
-    debugger;
     const indices = this.disabledButtons.reduce((acc: number[], el, index) => {
       if (el) {
         acc.push(index + 1);
@@ -103,7 +103,9 @@ export class TeamsComponent implements OnInit {
         this.threeTeam = this.allPlayers.filter(
           (obj1, index) => indices.indexOf(index + 1) === -1
         );
-        this.SuffleFormation(this.threeTeam);
+        // this.SuffleFormation(this.threeTeam);
+        this.allTeams = this.algoSuffleFormation(this.threeTeam);
+        this.teams = this.allTeams[0];
         this.showContext = 1;
       } else if (this.allPlayers.length - indices.length < 15) {
         this.Message = 'You have mark too much players.';
@@ -113,7 +115,9 @@ export class TeamsComponent implements OnInit {
         this.activeTeams == 4 &&
         this.allPlayers.length - indices.length == 20
       ) {
-        this.SuffleFormation(this.allPlayers);
+        // this.SuffleFormation(this.allPlayers);
+        this.allTeams = this.algoSuffleFormation(this.allPlayers);
+        this.teams = this.allTeams[0];
         this.showContext = 1;
       } else {
         if (this.activeTeams == 4) {
@@ -137,44 +141,118 @@ export class TeamsComponent implements OnInit {
         this.showContext = 0;
       } else {
         // Initialize three empty teams
-        this.SuffleFormation(this.allPlayers);
+        // this.SuffleFormation(this.allPlayers);
+        this.allTeams = this.algoSuffleFormation(this.allPlayers);
+        this.teams = this.allTeams[0];
         this.showContext = 1;
       }
     }
   }
 
-  SuffleFormation(playerArray: Player[]) {
-    this.teams = Array.from({ length: this.activeTeams }, () => ({
-      team: [],
-      averageGrade: 0,
-      teamColor: '',
-    }));
-    // Distribute players to teams
-    let i = 0;
-    let direction = 1; // 1 for ascending order, -1 for descending order
-    for (const player of playerArray) {
-      this.teams[i % this.activeTeams].team.push(player);
-      i += direction;
+  // SuffleFormation(playerArray: Player[]) {
+  //   this.teams = Array.from({ length: this.activeTeams }, () => ({
+  //     team: [],
+  //     averageGrade: 0,
+  //     teamColor: '',
+  //   }));
+  //   // Distribute players to teams
+  //   let i = 0;
+  //   let direction = 1; // 1 for ascending order, -1 for descending order
+  //   for (const player of playerArray) {
+  //     this.teams[i % this.activeTeams].team.push(player);
+  //     i += direction;
 
-      // Reverse direction if the next team would be outside the range of teams
-      if (i === this.activeTeams || i === -1) {
-        direction *= -1;
-        i += direction;
-      }
+  //     // Reverse direction if the next team would be outside the range of teams
+  //     if (i === this.activeTeams || i === -1) {
+  //       direction *= -1;
+  //       i += direction;
+  //     }
+  //   }
+  //   this.teams.forEach((team) => {
+  //     const totalGrade = team.team.reduce(
+  //       (acc, player) => acc + player.overall_grade,
+  //       0
+  //     );
+  //     const averageGrade = totalGrade / team.team.length;
+  //     team.averageGrade = parseFloat(averageGrade.toFixed(2));
+  //   });
+  //   this.teams.forEach((team, index) => {
+  //     team.teamColor = this.colors[index % this.colors.length];
+  //   });
+  // }
+
+  // Shuffle array helper function
+  private shuffle<T>(array: T[]): T[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-    this.teams.forEach((team) => {
-      const totalGrade = team.team.reduce(
-        (acc, player) => acc + player.overall_grade,
-        0
-      );
-      const averageGrade = totalGrade / team.team.length;
-      team.averageGrade = parseFloat(averageGrade.toFixed(2));
-    });
-    this.teams.forEach((team, index) => {
-      team.teamColor = this.colors[index % this.colors.length];
-    });
+    return array;
   }
-  algoSuffleFormation(playerArray: Player[]) {
-    
+
+  // Algo to shuffle teams
+  private algoSuffleFormation(playerArray: Player[]) {
+    const teamFormations = [];
+
+    const numberOfFormationsToGenerate = 3;
+    // Generate multiple team formations
+    for (
+      let formationIndex = 0;
+      formationIndex < numberOfFormationsToGenerate;
+      formationIndex++
+    ) {
+      const teams: {
+        team: Player[];
+        averageGrade: number;
+        teamColor: string;
+      }[] = Array.from({ length: this.activeTeams }, () => ({
+        team: [],
+        averageGrade: 0,
+        teamColor: '',
+      }));
+      let i = 0;
+      let direction = 1;
+
+      const shuffledPlayers = this.shuffle(playerArray); // Shuffle the player array
+
+      for (const player of shuffledPlayers) {
+        teams[i % this.activeTeams].team.push(player);
+        i += direction;
+
+        if (i === this.activeTeams || i === -1) {
+          direction *= -1;
+          i += direction;
+        }
+      }
+
+      teams.forEach((team) => {
+        const totalGrade = team.team.reduce(
+          (acc, player) => acc + player.overall_grade,
+          0
+        );
+        team.averageGrade = parseFloat(
+          (totalGrade / team.team.length).toFixed(2)
+        );
+      });
+
+      teams.forEach((team, index) => {
+        team.teamColor = this.colors[index % this.colors.length];
+      });
+
+      teamFormations.push(teams);
+    }
+    return teamFormations;
   }
+  refreshForamtion() {
+    this.teams = this.allTeams[this.counter];
+    this.counter++;
+    if(this.counter >= this.allTeams.length){
+      this.counter = 0;
+    }
+  }
+}
+interface Team {
+  team: Player[];
+  totalGrade: number;
+  teamColor: string;
 }
