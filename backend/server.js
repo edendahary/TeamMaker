@@ -5,45 +5,23 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv")
 const app = express();
+const User = require('./user');
+const Player = require("./player");
 
 app.use(cors());
 app.use(express.json());
 dotenv.config();
+app.use(bodyParser.json());
+
 const port = process.env.PORT;
 const userName = process.env.USER_NAME;
 const passWord = process.env.PASS_WORD;
+
 
 // MongoDB connection
 mongoose.connect("mongodb://localhost:27017/angularapp");
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-// Define a schema
-const playerSchema = new mongoose.Schema({
-  name: String,
-  mobile: String,
-  city: String,
-  shot: Number,
-  pass: Number,
-  accuracy: Number,
-  pace: Number,
-  dribbling: Number,
-  overall_grade: Number,
-  attack: Number,
-  defense: Number,
-});
-const userSchema = new mongoose.Schema({
-  name: String,
-  verification: Number,
-  email: String,
-  password: String,
-  userverify: { type: Boolean, default: false },
-  isLogin: { type: Boolean, default: false },
-});
-const User = mongoose.model("Users", userSchema);
-const Player = mongoose.model("Player", playerSchema);
-
-app.use(bodyParser.json());
 
 // API endpoints
 app.get("/api/players", async (req, res) => {
