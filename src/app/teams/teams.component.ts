@@ -25,7 +25,9 @@ export class TeamsComponent implements OnInit {
     'cyan',
     'magenta',
   ];
-  private apiUrl = 'http://192.168.1.112:3000/api/';
+  private apiUrl = 'https://localhost:3000/api/';
+  // private apiUrl = `https://192.168.1.112:3000/api/`;
+
   showContext = 0;
   activeButton = 1;
   activeTeams = 3;
@@ -246,7 +248,7 @@ export class TeamsComponent implements OnInit {
   refreshForamtion() {
     this.teams = this.allTeams[this.counter];
     this.counter++;
-    if(this.counter >= this.allTeams.length){
+    if (this.counter >= this.allTeams.length) {
       this.counter = 0;
     }
   }

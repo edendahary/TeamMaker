@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   @ViewChild('VerificationModal') model: ElementRef | undefined;
   @ViewChild('modelError') modelError: ElementRef | undefined;
-  private apiUrl = 'http://192.168.1.112:3000';
+  private apiUrl = 'https://localhost:3000';
+  // private apiUrl = `https://192.168.1.112:3000`
   isRegister: boolean = false;
   name: string = '';
   email: string = '';
@@ -27,17 +28,17 @@ export class LoginComponent {
 
   async getUserByEmail() {
     const response = await axios.get(
-      `http://192.168.1.112:3000/api/user/${this.email}`
+      `${this.apiUrl}/api/user/${this.email}`
     );
     return response.data;
   }
   async getUsers() {
-    const response = await axios.get('http://192.168.1.112:3000/api/users');
+    const response = await axios.get(`${this.apiUrl}/api/users`);
     return response.data;
   }
   async updateUser(user: any) {
     const response = await axios.put(
-      `http://192.168.1.112:3000/api/updateuser/${user.email}`,
+      `${this.apiUrl}/api/updateuser/${user.email}`,
       user
     );
   }

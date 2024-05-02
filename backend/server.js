@@ -7,8 +7,14 @@ const dotenv = require("dotenv")
 const app = express();
 const User = require('./user');
 const Player = require("./player");
+const fs = require("fs");
 
+
+// Create an HTTPS server
+const https = require("https");
+const path = require("path");
 app.use(cors());
+// const { connectToDatabase } = require("./database");
 app.use(express.json());
 dotenv.config();
 app.use(bodyParser.json());
@@ -18,10 +24,15 @@ const userName = process.env.USER_NAME;
 const passWord = process.env.PASS_WORD;
 
 
-// MongoDB connection
-mongoose.connect("mongodb://localhost:27017/angularapp");
+// // MongoDB connection
+mongoose.connect(process.env.DB_URL);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+const connection = mongoose.connection;
+connection.once("open", ()=>{
+  console.log("Database Conneted")
+})
+
 
 // API endpoints
 app.get("/api/players", async (req, res) => {
@@ -132,6 +143,13 @@ app.post("/sendVerificationCode", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+const sslServer = https.createServer({
+  key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem'))
+},app)
+sslServer.listen(`${port}`, () =>
+  console.log(`Secure server on port ${port}`)
+);
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });

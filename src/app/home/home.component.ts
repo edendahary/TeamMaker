@@ -17,7 +17,9 @@ export class HomeComponent implements OnInit {
   PlayerObj: Player = new Player();
   playerList: Player[] = [];
   Message: string = '';
-  private apiUrl = 'http://192.168.1.112:3000/api/';
+  private apiUrl = 'https://localhost:3000/api/';
+  // private apiUrl = `https://192.168.1.112:3000/api/`;
+
   data: any;
 
   async ngOnInit() {
@@ -44,7 +46,7 @@ export class HomeComponent implements OnInit {
   async updatePlayer(player: any): Promise<any> {
     player.overall_grade = this.playerTotalAverage();
     const response = await axios.put(
-      `http://192.168.1.112:3000/api/updateplayer/${player._id}`,
+      `${this.apiUrl}/updateplayer/${player._id}`,
       player
     );
     if (response.status == 200) {

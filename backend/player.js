@@ -13,6 +13,6 @@ const playerSchema = new mongoose.Schema({
   attack: Number,
   defense: Number,
 });
-const Player =  mongoose.model("Player", playerSchema);
+const Player =  mongoose.model("player", playerSchema);
 
 module.exports = Player;
