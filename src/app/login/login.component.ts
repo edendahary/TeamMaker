@@ -14,8 +14,10 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   @ViewChild('VerificationModal') model: ElementRef | undefined;
   @ViewChild('modelError') modelError: ElementRef | undefined;
-  private apiUrl = 'https://localhost:3000';
+  // private apiUrl = 'https://localhost:3000';
   // private apiUrl = `https://192.168.1.112:3000`
+  private netlifyUrl = 'https://papateams.netlify.app';
+
   isRegister: boolean = false;
   name: string = '';
   email: string = '';
@@ -27,18 +29,16 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   async getUserByEmail() {
-    const response = await axios.get(
-      `${this.apiUrl}/api/user/${this.email}`
-    );
+    const response = await axios.get(`${this.netlifyUrl}/api/user/${this.email}`);
     return response.data;
   }
   async getUsers() {
-    const response = await axios.get(`${this.apiUrl}/api/users`);
+    const response = await axios.get(`${this.netlifyUrl}/api/users`);
     return response.data;
   }
   async updateUser(user: any) {
     const response = await axios.put(
-      `${this.apiUrl}/api/updateuser/${user.email}`,
+      `${this.netlifyUrl}/api/updateuser/${user.email}`,
       user
     );
   }
@@ -72,11 +72,14 @@ export class LoginComponent {
   }
 
   async sendMailVerificationCode(): Promise<any[]> {
-    const response = await axios.post(this.apiUrl + '/sendVerificationCode', {
-      name: this.name,
-      email: this.email,
-      password: this.password,
-    });
+    const response = await axios.post(
+      this.netlifyUrl + '/sendVerificationCode',
+      {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+      }
+    );
     return response.data;
   }
   async register() {

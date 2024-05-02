@@ -25,8 +25,9 @@ export class TeamsComponent implements OnInit {
     'cyan',
     'magenta',
   ];
-  private apiUrl = 'https://localhost:3000/api/';
+  // private apiUrl = 'https://localhost:3000/api/';
   // private apiUrl = `https://192.168.1.112:3000/api/`;
+  private netlifyUrl = 'https://papateams.netlify.app';
 
   showContext = 0;
   activeButton = 1;
@@ -47,7 +48,7 @@ export class TeamsComponent implements OnInit {
     this.allPlayers.sort((a, b) => b.overall_grade - a.overall_grade);
   }
   async getPlayers(): Promise<any[]> {
-    const response = await axios.get(this.apiUrl + 'players');
+    const response = await axios.get(this.netlifyUrl + 'players');
     return response.data;
   }
 

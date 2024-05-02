@@ -17,8 +17,9 @@ export class HomeComponent implements OnInit {
   PlayerObj: Player = new Player();
   playerList: Player[] = [];
   Message: string = '';
-  private apiUrl = 'https://localhost:3000/api/';
+  // private apiUrl = 'https://localhost:3000/api/';
   // private apiUrl = `https://192.168.1.112:3000/api/`;
+  private netlifyUrl = 'https://papateams.netlify.app'
 
   data: any;
 
@@ -33,12 +34,12 @@ export class HomeComponent implements OnInit {
     this.data = await this.getPlayers();
   }
   async getPlayers(): Promise<any[]> {
-    const response = await axios.get(this.apiUrl + 'players');
+    const response = await axios.get(this.netlifyUrl + 'players');
     return response.data;
   }
 
   async addPlayer(player: any): Promise<any> {
-    const response = await axios.post(this.apiUrl + 'players', player);
+    const response = await axios.post(this.netlifyUrl + 'players', player);
     if (response.status == 201) {
       this.refreshePage();
     }
@@ -46,7 +47,7 @@ export class HomeComponent implements OnInit {
   async updatePlayer(player: any): Promise<any> {
     player.overall_grade = this.playerTotalAverage();
     const response = await axios.put(
-      `${this.apiUrl}/updateplayer/${player._id}`,
+      `${this.netlifyUrl}/updateplayer/${player._id}`,
       player
     );
     if (response.status == 200) {
@@ -55,7 +56,7 @@ export class HomeComponent implements OnInit {
   }
   async deletePlayer(player: any): Promise<any> {
     const response = await axios.delete(
-      this.apiUrl + `deleteplayer/${player._id}`
+      this.netlifyUrl + `deleteplayer/${player._id}`
     );
     if (response.status == 201) {
       alert('player Deleted!');
