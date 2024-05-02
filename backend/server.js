@@ -7,7 +7,12 @@ const dotenv = require("dotenv")
 const app = express();
 const User = require('./user');
 const Player = require("./player");
+const fs = require("fs");
 
+
+// Create an HTTPS server
+const https = require("https");
+const path = require("path");
 app.use(cors());
 // const { connectToDatabase } = require("./database");
 app.use(express.json());
@@ -138,6 +143,13 @@ app.post("/sendVerificationCode", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+const sslServer = https.createServer({
+  key: fs.readFileSync(path.join(__dirname, 'cert', 'key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert', 'cert.pem'))
+},app)
+sslServer.listen(`${port}`, () =>
+  console.log(`Secure server on port ${port}`)
+);
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
