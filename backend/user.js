@@ -9,6 +9,6 @@ const userSchema = new mongoose.Schema({
   isLogin: { type: Boolean, default: false },
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("user", userSchema);
 
 module.exports = User;

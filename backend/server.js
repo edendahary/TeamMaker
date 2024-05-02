@@ -9,6 +9,7 @@ const User = require('./user');
 const Player = require("./player");
 
 app.use(cors());
+// const { connectToDatabase } = require("./database");
 app.use(express.json());
 dotenv.config();
 app.use(bodyParser.json());
@@ -18,10 +19,15 @@ const userName = process.env.USER_NAME;
 const passWord = process.env.PASS_WORD;
 
 
-// MongoDB connection
-mongoose.connect("mongodb://localhost:27017/angularapp");
+// // MongoDB connection
+mongoose.connect(process.env.DB_URL);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+const connection = mongoose.connection;
+connection.once("open", ()=>{
+  console.log("Database Conneted")
+})
+
 
 // API endpoints
 app.get("/api/players", async (req, res) => {
