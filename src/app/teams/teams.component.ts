@@ -25,7 +25,7 @@ export class TeamsComponent implements OnInit {
     'cyan',
     'magenta',
   ];
-  private apiUrl = 'https://localhost:3000/api/';
+  private apiUrl = 'http://localhost:3000/api/';
   // private apiUrl = `https://192.168.1.112:3000/api/`;
 
   showContext = 0;

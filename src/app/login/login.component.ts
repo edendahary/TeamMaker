@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   @ViewChild('VerificationModal') model: ElementRef | undefined;
   @ViewChild('modelError') modelError: ElementRef | undefined;
-  private apiUrl = 'https://localhost:3000';
+  private apiUrl = 'http://localhost:3000';
   // private apiUrl = `https://192.168.1.112:3000`
   
   isRegister: boolean = false;
