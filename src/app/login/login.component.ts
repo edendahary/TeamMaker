@@ -14,9 +14,10 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   @ViewChild('VerificationModal') model: ElementRef | undefined;
   @ViewChild('modelError') modelError: ElementRef | undefined;
-  private apiUrl = 'http://localhost:3000';
+  // private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'https://teammaker-5.onrender.com';
   // private apiUrl = `https://192.168.1.112:3000`
-  
+
   isRegister: boolean = false;
   name: string = '';
   email: string = '';
@@ -28,9 +29,7 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   async getUserByEmail() {
-    const response = await axios.get(
-      `${this.apiUrl}/api/user/${this.email}`
-    );
+    const response = await axios.get(`${this.apiUrl}/api/user/${this.email}`);
     return response.data;
   }
   async getUsers() {

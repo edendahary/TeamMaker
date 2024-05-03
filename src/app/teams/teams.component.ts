@@ -25,8 +25,9 @@ export class TeamsComponent implements OnInit {
     'cyan',
     'magenta',
   ];
-  private apiUrl = 'http://localhost:3000/api/';
+  // private apiUrl = 'http://localhost:3000/api/';
   // private apiUrl = `https://192.168.1.112:3000/api/`;
+  private apiUrl = 'https://teammaker-5.onrender.com/api/';
 
   showContext = 0;
   activeButton = 1;

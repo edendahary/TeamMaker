@@ -17,7 +17,9 @@ export class HomeComponent implements OnInit {
   PlayerObj: Player = new Player();
   playerList: Player[] = [];
   Message: string = '';
-  private apiUrl = 'http://localhost:3000/api/';
+  // private apiUrl = 'http://localhost:3000/api/';
+  private apiUrl = 'https://teammaker-5.onrender.com/api/';
+
   // private apiUrl = `https://192.168.1.112:3000/api/`;
 
   data: any;
