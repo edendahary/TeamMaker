@@ -17,22 +17,23 @@ export class HomeComponent implements OnInit {
   PlayerObj: Player = new Player();
   playerList: Player[] = [];
   Message: string = '';
-  // private apiUrl = 'http://localhost:3000/api/';
-  private apiUrl = 'https://teammaker-5.onrender.com/api/';
-
-  // private apiUrl = `https://192.168.1.112:3000/api/`;
+  // private apiUrl = 'http://localhost:3000/api/';   // localhost 
+  private apiUrl = 'https://teammaker-5.onrender.com/api/'; // my server on render.com IP
+  // private apiUrl = `https://192.168.1.112:3000/api/`; // my pc IP
+  showBuffer: boolean = false;
 
   data: any;
 
   async ngOnInit() {
-    // const localData = localStorage.getItem('angular17crud');
+    this.showBuffer = true;
     this.data = await this.getPlayers();
-    // if (localData != null) {
-    //   this.playerList = JSON.parse(localData);
-    // }
+    this.showBuffer = false;
   }
   async refreshePage() {
+    this.showBuffer = true;
+
     this.data = await this.getPlayers();
+    this.showBuffer = false;
   }
   async getPlayers(): Promise<any[]> {
     const response = await axios.get(this.apiUrl + 'players');
@@ -48,7 +49,7 @@ export class HomeComponent implements OnInit {
   async updatePlayer(player: any): Promise<any> {
     player.overall_grade = this.playerTotalAverage();
     const response = await axios.put(
-      `${this.apiUrl}/updateplayer/${player._id}`,
+      `${this.apiUrl}updateplayer/${player._id}`,
       player
     );
     if (response.status == 200) {
@@ -122,12 +123,14 @@ export class HomeComponent implements OnInit {
   }
 
   async savePlayer() {
+    this.showBuffer = true;
     this.PlayerObj.overall_grade = this.playerTotalAverage();
     const newPlayer = await this.addPlayer(this.PlayerObj);
     if (newPlayer) {
       alert('New player added');
     }
     this.closeModel();
+    this.showBuffer = false;
   }
 }
 

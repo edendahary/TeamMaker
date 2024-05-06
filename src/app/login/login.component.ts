@@ -25,6 +25,7 @@ export class LoginComponent {
   verificationCode: string = '';
   Message: string = '';
   isLogin: boolean = false;
+  showBuffer: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -48,6 +49,7 @@ export class LoginComponent {
   }
 
   async login() {
+    this.showBuffer = true;
     const user = await this.getUserByEmail();
     if (user) {
       if (
@@ -69,6 +71,7 @@ export class LoginComponent {
     }
     this.email = '';
     this.password = '';
+    this.showBuffer = false;
   }
 
   async sendMailVerificationCode(): Promise<any[]> {

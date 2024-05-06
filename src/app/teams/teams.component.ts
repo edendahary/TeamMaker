@@ -25,10 +25,10 @@ export class TeamsComponent implements OnInit {
     'cyan',
     'magenta',
   ];
-  // private apiUrl = 'http://localhost:3000/api/';
-  // private apiUrl = `https://192.168.1.112:3000/api/`;
-  private apiUrl = 'https://teammaker-5.onrender.com/api/';
-
+  // private apiUrl = 'http://localhost:3000/api/'; // Local IP
+  // private apiUrl = `https://192.168.1.112:3000/api/`; // my PC IP
+  private apiUrl = 'https://teammaker-5.onrender.com/api/'; // render.com own server IP
+  showBuffer: boolean = false;
   showContext = 0;
   activeButton = 1;
   activeTeams = 3;
@@ -36,16 +36,20 @@ export class TeamsComponent implements OnInit {
   colNumber = 4;
   allPlayers: Player[] = [];
   threeTeam: Player[] = [];
+
+  fourTeam: Player[] = [];
   allTeams: any;
   teams: { team: Player[]; averageGrade: number; teamColor: string }[] = [];
   disabledButtons: boolean[] = [];
   async ngOnInit() {
+    this.showBuffer = true;
     this.data = await this.getPlayers();
     this.allPlayers = this.data.map((player: Player) => {
       const { name, overall_grade } = player;
       return { name, overall_grade };
     });
     this.allPlayers.sort((a, b) => b.overall_grade - a.overall_grade);
+    this.showBuffer = false;
   }
   async getPlayers(): Promise<any[]> {
     const response = await axios.get(this.apiUrl + 'players');
@@ -55,10 +59,10 @@ export class TeamsComponent implements OnInit {
   changeColor(buttonNumber: number) {
     this.showContext = 0;
     if (buttonNumber != this.activeButton) {
-      if (this.allPlayers.length == 20 && buttonNumber == 2) {
+      if (this.allPlayers.length >= 20 && buttonNumber == 2) {
         this.activeButton = 2;
         this.activeTeams = 4;
-      } else if (this.allPlayers.length == 20 && buttonNumber == 1) {
+      } else if (buttonNumber == 1) {
         this.activeButton = 1;
         this.activeTeams = 3;
       } else {
@@ -82,74 +86,59 @@ export class TeamsComponent implements OnInit {
     this.disabledButtons[index] = !this.disabledButtons[index];
   }
   makeForamtion() {
+    this.showBuffer = true;
     const indices = this.disabledButtons.reduce((acc: number[], el, index) => {
       if (el) {
         acc.push(index + 1);
       }
       return acc;
     }, []);
-    if (this.allPlayers.length < 15) {
-      this.Message = 'You dont have 15 players. Please add more';
-      this.openModal();
-      this.showContext = 0;
-    } else if (this.allPlayers.length > 15) {
-      if (
-        this.activeTeams == 4 &&
-        this.allPlayers.length - indices.length < 20
-      ) {
+
+    if (this.activeTeams == 4) {
+      if (this.allPlayers.length - indices.length < 20) {
         this.Message = 'You have mark too much players.';
         this.openModal();
         this.showContext = 0;
-      }
-      if (this.allPlayers.length - indices.length == 15) {
-        // this.threeTeam = allPlayers.allPlayers.filter(obj1 => !indices.some(obj2 => obj1.id === obj2));
-        this.threeTeam = this.allPlayers.filter(
+      } else if (this.allPlayers.length - indices.length > 20) {
+        this.Message =
+          'You have more then 20 players for four teams. Please mark the players you dont want in your formation.';
+        this.openModal();
+        this.showContext = 0;
+      } else {
+        this.fourTeam = this.allPlayers.filter(
           (obj1, index) => indices.indexOf(index + 1) === -1
         );
         // this.SuffleFormation(this.threeTeam);
-        this.allTeams = this.algoSuffleFormation(this.threeTeam);
+        this.allTeams = this.algoSuffleFormation(this.fourTeam);
         this.teams = this.allTeams[0];
         this.showContext = 1;
+      }
+    } else {// this.activeTeams == 3
+
+      if (this.allPlayers.length < 15) {
+        this.Message = 'You dont have 15 players. Please add more';
+        this.openModal();
+        this.showContext = 0;
       } else if (this.allPlayers.length - indices.length < 15) {
         this.Message = 'You have mark too much players.';
         this.openModal();
         this.showContext = 0;
-      } else if (
-        this.activeTeams == 4 &&
-        this.allPlayers.length - indices.length == 20
-      ) {
-        // this.SuffleFormation(this.allPlayers);
-        this.allTeams = this.algoSuffleFormation(this.allPlayers);
-        this.teams = this.allTeams[0];
-        this.showContext = 1;
-      } else {
-        if (this.activeTeams == 4) {
-          this.Message = 'You have less then 20 player.';
-        } else {
-          this.Message =
-            'You have more then 15 players for three teams. Please mark the player you dont want in the formation.';
-        }
-
-        this.openModal();
-        this.showContext = 0;
-      }
-    } else if (this.allPlayers.length < 20 && this.activeTeams == 4) {
-      this.Message = 'You dont have 20 player. Please add more';
-      this.openModal();
-    } else {
-      if (this.allPlayers.length == 20 && this.activeTeams == 3) {
+      } else if (this.allPlayers.length - indices.length > 15) {
         this.Message =
-          'You have 20 players for Three teams. Please mark the players you dont want or change to Four teams';
+          'You have more then 15 players for three teams. Please mark the players you dont want in your formation.';
         this.openModal();
         this.showContext = 0;
       } else {
-        // Initialize three empty teams
-        // this.SuffleFormation(this.allPlayers);
-        this.allTeams = this.algoSuffleFormation(this.allPlayers);
+        this.threeTeam = this.allPlayers.filter(
+          (obj1, index) => indices.indexOf(index + 1) === -1
+        );
+        this.allTeams = this.algoSuffleFormation(this.threeTeam);
         this.teams = this.allTeams[0];
         this.showContext = 1;
       }
     }
+
+    this.showBuffer = false;
   }
 
   // SuffleFormation(playerArray: Player[]) {
