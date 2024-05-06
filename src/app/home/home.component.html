@@ -3,7 +3,7 @@
     <div class="col-md-6">
       <h4>
         Player Portal {{ data && data.length ? "(" + data.length + ")" : "" }}
-      </h4>
+      </h4>  
     </div>
     <div class="col-md-6 text-end">
       <button class="btn btn-outline-success" (click)="openModal()">
@@ -16,9 +16,9 @@
     @for (item of data; track $index) {
     <div class="col-md-4 p-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-primary" >
           <div class="row">
-            <div class="col-6 overflow-hidden text-nowrap text-truncate">
+            <div class="col-6 overflow-hidden text-nowrap text-truncate" style="font-weight: bold;">
               {{ item.name }}
             </div>
             <div class="col-6 text-end">
@@ -45,7 +45,11 @@
         <div class="card-footer">
           <div class="row">
             <div class="col-6 p-2">
+              @if(item.overall_grade >= 8){ 
+               <small> Overall Rating: {{ item.overall_grade }}</small><app-particle-animation></app-particle-animation>
+              }@else {
               <small> Overall Rating: {{ item.overall_grade }}</small>
+              }
             </div>
             <div class="col-6 text-end p-2">
               <button
@@ -309,3 +313,5 @@
     </div>
   </div>
 </div>
+
+

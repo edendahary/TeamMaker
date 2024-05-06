@@ -3,13 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { TeamsComponent } from '../teams/teams.component';
 import axios from 'axios';
+import { ParticleAnimationComponent } from "../particle-animation/particle-animation.component";
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [RouterOutlet, FormsModule, RouterModule, TeamsComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+    selector: 'app-home',
+    standalone: true,
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css',
+    imports: [RouterOutlet, FormsModule, RouterModule, TeamsComponent, ParticleAnimationComponent]
 })
 export class HomeComponent implements OnInit {
   @ViewChild('myModal') model: ElementRef | undefined;
