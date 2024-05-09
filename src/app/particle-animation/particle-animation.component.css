@@ -8,7 +8,7 @@ body {
   filter: blur(0.02em);
   -webkit-filter: blur(0.02em);
   position: relative;
-  margin-left: 130px;
+  margin-left: 100px;
   width: 10em;
   height: 1em;
 }

@@ -3,7 +3,7 @@
     <div class="col-md-6">
       <h4>
         Player Portal {{ data && data.length ? "(" + data.length + ")" : "" }}
-      </h4>  
+      </h4>
     </div>
     <div class="col-md-6 text-end">
       <button class="btn btn-outline-success" (click)="openModal()">
@@ -16,9 +16,12 @@
     @for (item of data; track $index) {
     <div class="col-md-4 p-2">
       <div class="card">
-        <div class="card-header bg-primary" >
+        <div class="card-header bg-primary">
           <div class="row">
-            <div class="col-6 overflow-hidden text-nowrap text-truncate" style="font-weight: bold;">
+            <div
+              class="col-6 overflow-hidden text-nowrap text-truncate"
+              style="font-weight: bold"
+            >
               {{ item.name }}
             </div>
             <div class="col-6 text-end">
@@ -27,29 +30,89 @@
           </div>
         </div>
         <div class="card-body">
-          <p>{{ item.city }}</p>
+          <!-- <p>{{ item.city }}</p> -->
           <div class="row">
-            <div class="col-4">Accuracy: {{ item.accuracy }}</div>
-            <div class="col-4">Pass: {{ item.pass }}</div>
-            <div class="col-4">Shot: {{ item.shot }}</div>
-            <div class="row mt-2">
-              <div class="col-4">Pace: {{ item.pace }}</div>
-              <div class="col-4">Dribbling: {{ item.dribbling }}</div>
-              <div class="col-4">Attack: {{ item.attack }}</div>
+            <div class="col-4">Accuracy:
+               <div class="star-rating">
+                @for (num of [1, 2, 3, 4, 5]; track $index) {
+                <span class="star" style="pointer-events: none;">
+                     <fa-icon [icon]="getStarIcon(num, item.accuracy)"></fa-icon>
+                </span>
+
+                }
+              </div>
+            </div>
+            <div class="col-4">Pass: <div class="star-rating">
+                @for (num of [1, 2, 3, 4, 5]; track $index) {
+                <span class="star" style="pointer-events: none;">
+                     <fa-icon [icon]="getStarIcon(num, item.pass)"></fa-icon>
+                </span>
+
+                }
+              </div></div>
+            <div class="col-4">Shot: <div class="star-rating">
+                @for (num of [1, 2, 3, 4, 5]; track $index) {
+                <span class="star" style="pointer-events: none;">
+                     <fa-icon [icon]="getStarIcon(num, item.shot)"></fa-icon>
+                </span>
+
+                }
+              </div>
+            </div>
             </div>
             <div class="row mt-2">
-              <div class="col-4">Defense: {{ item.defense }}</div>
+              <div class="col-4">Pace: <div class="star-rating">
+                @for (num of [1, 2, 3, 4, 5]; track $index) {
+                <span class="star" style="pointer-events: none;">
+                     <fa-icon [icon]="getStarIcon(num, item.pace)"></fa-icon>
+                </span>
+
+                }
+              </div></div>
+              <div class="col-4">Dribbling:<div class="star-rating">
+                @for (num of [1, 2, 3, 4, 5]; track $index) {
+                <span class="star" style="pointer-events: none;">
+                     <fa-icon [icon]="getStarIcon(num, item.dribbling)"></fa-icon>
+                </span>
+
+                }
+              </div></div>
+              <div class="col-4">Attack: <div class="star-rating">
+                @for (num of [1, 2, 3, 4, 5]; track $index) {
+                <span class="star" style="pointer-events: none;">
+                     <fa-icon [icon]="getStarIcon(num, item.attack)"></fa-icon>
+                </span>
+
+                }
+              </div></div>
             </div>
-          </div>
+            <div class="row mt-2">
+              <div class="col-4">Defense: <div class="star-rating">
+                @for (num of [1, 2, 3, 4, 5]; track $index) {
+                <span class="star" style="pointer-events: none;">
+                     <fa-icon [icon]="getStarIcon(num, item.defense)"></fa-icon>
+                </span>
+
+                }
+              </div></div>
+            </div>
         </div>
         <div class="card-footer">
           <div class="row">
             <div class="col-6 p-2">
-              @if(item.overall_grade >= 8){ 
-               <small> Overall Rating: {{ item.overall_grade }}</small><app-particle-animation></app-particle-animation>
-              }@else {
-              <small> Overall Rating: {{ item.overall_grade }}</small>
-              }
+              <small> Overall Rating:<div class="star-rating">
+                @for (num of [1, 2, 3, 4, 5]; track $index) {
+                <span class="star" style="pointer-events: none;">
+                     <fa-icon [icon]="getStarIcon(num, item.overall_grade)"></fa-icon>
+                </span>
+                }
+                {{item.overall_grade}}
+
+              </div>
+            </small>
+            @if (item.overall_grade >= 4.2) {
+              <app-particle-animation></app-particle-animation>
+            }  
             </div>
             <div class="col-6 text-end p-2">
               <button
@@ -106,7 +169,7 @@
       <div class="modal-body">
         <form ngNativeValidate #form>
           <div class="row">
-            <div class="col-8">
+            <div class="col-6">
               <label for="">Name</label>
               <input
                 type="text"
@@ -119,7 +182,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6">
+            <div class="col-6 p-2">
               <label for="">Mobile</label>
               <input
                 type="tel"
@@ -130,124 +193,108 @@
                 required
               />
             </div>
-            <div class="col-6">
-              <label for="">City</label>
-              <input
-                type="text"
-                [(ngModel)]="PlayerObj.city"
-                name="city"
-                class="form-control"
-                placeholder="Enter City"
-                required
-              />
-            </div>
           </div>
           <div class="row">
             <div class="col-4">
               <label for="">Dribbling</label>
-              <input
-                type="number"
-                [(ngModel)]="PlayerObj.dribbling"
-                name="dribbling"
-                class="form-control"
-                placeholder="1-10"
-                min="1"
-                max="10"
-                step="0.1"
-                required
-              />
+              <div class="star-rating">
+                @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                <span
+                  class="star"
+                  (click)="rateStar('dribbling',$index)"
+                  [class.active]="$index < PlayerObj.dribbling"
+                >
+                     <fa-icon [icon]="getStarIcon(_, PlayerObj.dribbling)"></fa-icon>
+                </span>
+                }
+              </div>
             </div>
             <div class="col-4">
               <label for="">Shot</label>
-              <input
-                type="number"
-                [(ngModel)]="PlayerObj.shot"
-                name="shot"
-                class="form-control"
-                placeholder="1-10"
-                min="1"
-                max="10"
-                step="0.1"
-                required
-              />
+              <div class="star-rating">
+                @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                <span
+                  class="star"
+                  (click)="rateStar('shot',$index)"
+                  [class.active]="$index < PlayerObj.shot"
+                >
+                <fa-icon [icon]="getStarIcon(_, PlayerObj.shot)"></fa-icon>
+
+                </span>
+                }
+              </div>
             </div>
             <div class="col-4">
               <label for="">Pace</label>
-              <input
-                type="number"
-                [(ngModel)]="PlayerObj.pace"
-                name="pace"
-                class="form-control"
-                placeholder="1-10"
-                min="1"
-                max="10"
-                step="0.1"
-                required
-              />
+              <div class="star-rating">
+                @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                <span
+                  class="star"
+                  (click)="rateStar('pace',$index)"
+                  [class.active]="$index < PlayerObj.pace"
+                >
+                <fa-icon [icon]="getStarIcon(_, PlayerObj.pace)"></fa-icon>
+                </span>
+                }
+              </div>
             </div>
             <div class="col-4">
               <label for="">Pass</label>
-              <input
-                type="number"
-                [(ngModel)]="PlayerObj.pass"
-                name="pass"
-                class="form-control"
-                placeholder="1-10"
-                min="1"
-                max="10"
-                step="0.1"
-                required
-              />
+              <div class="star-rating">
+                @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                <span
+                  class="star"
+                  (click)="rateStar('pass',$index)"
+                  [class.active]="$index < PlayerObj.pass"
+                >
+                <fa-icon [icon]="getStarIcon(_, PlayerObj.pass)"></fa-icon>
+                </span>
+                }
+              </div>
             </div>
             <div class="col-4">
               <label for="">Accuracy</label>
-              <input
-                type="number"
-                [(ngModel)]="PlayerObj.accuracy"
-                name="accuracy"
-                class="form-control"
-                placeholder="1-10"
-                min="1"
-                max="1-10"
-                step="0.1"
-                required
-              />
+              <div class="star-rating">
+                @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                <span
+                  class="star"
+                  (click)="rateStar('accuracy',$index)"
+                  [class.active]="$index < PlayerObj.accuracy"
+                >
+                <fa-icon [icon]="getStarIcon(_, PlayerObj.accuracy)"></fa-icon>
+                </span>
+                }
+              </div>
             </div>
             <div class="col-4">
               <label for="">Attack</label>
-              <input
-                type="number"
-                [(ngModel)]="PlayerObj.attack"
-                name="attack"
-                class="form-control"
-                placeholder="1-10"
-                min="1"
-                max="10"
-                step="0.1"
-                required
-              />
+              <div class="star-rating">
+                @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                <span
+                  class="star"
+                  (click)="rateStar('attack',$index)"
+                  [class.active]="$index < PlayerObj.attack"
+                >
+                <fa-icon [icon]="getStarIcon(_, PlayerObj.attack)"></fa-icon>
+                </span>
+                }
+              </div>
             </div>
             <div class="col-4">
               <label for="">Defense</label>
-              <input
-                type="number"
-                [(ngModel)]="PlayerObj.defense"
-                name="defense"
-                class="form-control"
-                placeholder="1-10"
-                min="1"
-                max="10"
-                step="0.1"
-                required
-              />
+              <div class="star-rating">
+                @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                <span
+                  class="star"
+                  (click)="rateStar('defense',$index)"
+                  [class.active]="$index < PlayerObj.defense"
+                >
+                <fa-icon [icon]="getStarIcon(_, PlayerObj.defense)"></fa-icon>
+                </span>
+                }
+              </div>
             </div>
           </div>
-          <!-- <div class="row">
-            <div class="col-12">
-                <label for="">Address</label>
-                <textarea name="address" id="" cols="30" rows="3" [(ngModel)]="PlayerObj.address" class="form-control"></textarea>
-            </div>
-        </div> -->
         </form>
         @if (showBuffer) {
         <div
@@ -313,5 +360,3 @@
     </div>
   </div>
 </div>
-
-
