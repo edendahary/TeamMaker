@@ -184,46 +184,7 @@ body {
   animation-delay: 0.7513607566s;
   left: calc((100% - 5em) * 0.78);
 }
-.particle:nth-of-type(41) {
-  animation-delay: 0.6035300131s;
-  left: calc((100% - 5em) * 0.8);
-}
-.particle:nth-of-type(42) {
-  animation-delay: 0.72972832s;
-  left: calc((100% - 5em) * 0.82);
-}
-.particle:nth-of-type(43) {
-  animation-delay: 0.6099766747s;
-  left: calc((100% - 5em) * 0.84);
-}
-.particle:nth-of-type(44) {
-  animation-delay: 0.7069511685s;
-  left: calc((100% - 5em) * 0.86);
-}
-.particle:nth-of-type(45) {
-  animation-delay: 0.0201794266s;
-  left: calc((100% - 5em) * 0.88);
-}
-.particle:nth-of-type(46) {
-  animation-delay: 0.6711720954s;
-  left: calc((100% - 5em) * 0.9);
-}
-.particle:nth-of-type(47) {
-  animation-delay: 0.2359759372s;
-  left: calc((100% - 5em) * 0.92);
-}
-.particle:nth-of-type(48) {
-  animation-delay: 0.586563575s;
-  left: calc((100% - 5em) * 0.94);
-}
-.particle:nth-of-type(49) {
-  animation-delay: 0.8798788934s;
-  left: calc((100% - 5em) * 0.96);
-}
-.particle:nth-of-type(50) {
-  animation-delay: 0.4914476644s;
-  left: calc((100% - 5em) * 0.98);
-}
+
 
 @keyframes rise {
   from {

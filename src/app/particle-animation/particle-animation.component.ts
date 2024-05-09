@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './particle-animation.component.css',
 })
 export class ParticleAnimationComponent implements OnInit {
-  particles: number[] = Array(50).fill(0);
+  particles: number[] = Array(40).fill(0);
 
   constructor() {}
 
