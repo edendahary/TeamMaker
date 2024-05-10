@@ -287,7 +287,7 @@
                 <span
                   class="star"
                   (click)="rateStar('defense',$index)"
-                  [class.active]="$index < PlayerObj.defense"
+                  [class.active]="$index <= PlayerObj.defense && $index + 0.5 > PlayerObj.defense"
                 >
                 <fa-icon [icon]="getStarIcon(_, PlayerObj.defense)"></fa-icon>
                 </span>

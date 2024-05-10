@@ -44,14 +44,13 @@ export class HomeComponent implements OnInit {
 
   showHalfStar = true;
 
-
-
-  getStarIcon(num: number, overallGrade: number) {
-    if (num <= overallGrade) {
+  getStarIcon(num: number, grade: number) {
+    if (num <= grade) {
       return this.faStar;
     } else if (
-      num > overallGrade &&
-      num < overallGrade + 1 &&
+      num > grade &&
+      num < grade + 1 &&
+      grade % 1 >= 0.5 &&
       this.showHalfStar
     ) {
       return this.faStarHalfAlt;
@@ -63,25 +62,15 @@ export class HomeComponent implements OnInit {
   rateStar(field: string, index: number): void {
     switch (field) {
       case 'dribbling':
-        this.PlayerObj.dribbling = index + 1;
-        break;
       case 'shot':
-        this.PlayerObj.shot = index + 1;
-        break;
       case 'pace':
-        this.PlayerObj.pace = index + 1;
-        break;
       case 'pass':
-        this.PlayerObj.pass = index + 1;
-        break;
       case 'accuracy':
-        this.PlayerObj.accuracy = index + 1;
-        break;
       case 'attack':
-        this.PlayerObj.attack = index + 1;
-        break;
       case 'defense':
-        this.PlayerObj.defense = index + 1;
+        debugger;
+        this.PlayerObj[field] =
+          index + 0.5 <= this.PlayerObj[field] ? index + 1 : index + 0.5;
         break;
     }
   }
@@ -110,6 +99,7 @@ export class HomeComponent implements OnInit {
     }
   }
   async updatePlayer(player: any): Promise<any> {
+    this.showBuffer = true;
     player.overall_grade = this.playerTotalAverage();
     const response = await axios.put(
       `${this.apiUrl}updateplayer/${player._id}`,
@@ -118,6 +108,8 @@ export class HomeComponent implements OnInit {
     if (response.status == 200) {
       this.closeModel();
     }
+    this.showBuffer = false;
+
   }
   async deletePlayer(player: any): Promise<any> {
     const response = await axios.delete(
@@ -155,7 +147,6 @@ export class HomeComponent implements OnInit {
     }
   }
   onEdit(item: Player) {
-    debugger;
     this.PlayerObj = item;
     this.openModal();
   }
@@ -181,7 +172,6 @@ export class HomeComponent implements OnInit {
   }
 
   async savePlayer() {
-    debugger;
     this.showBuffer = true;
     this.PlayerObj.overall_grade = this.playerTotalAverage();
 

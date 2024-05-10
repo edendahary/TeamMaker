@@ -1,8 +1,17 @@
 .star  {
-  font-size: 12px;
+  font-size: 16px;
   color: #ccc;
   cursor: pointer;
   color: #f8b739;
 }
 
-
+/* 
+.star:after {
+  font-family: FontAwesome;
+  content: "\f005";
+  left: 0;
+  top: 0;
+  width: 60%;
+  overflow: hidden;
+  color: #f8b739;
+} */
