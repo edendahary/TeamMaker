@@ -5,7 +5,7 @@ import { TeamsComponent } from '../teams/teams.component';
 import axios from 'axios';
 import { ParticleAnimationComponent } from "../particle-animation/particle-animation.component";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faStarHalfAlt, faFire } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
 
 
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   // private apiUrl = `https://192.168.1.112:3000/api/`; // my pc IP
   showBuffer: boolean = false;
   data: any;
-
+  faFire = faFire;
   faStar = faStar;
   faStarHalfAlt = faStarHalfAlt;
   faStarEmpty = faStarEmpty;
@@ -109,7 +109,6 @@ export class HomeComponent implements OnInit {
       this.closeModel();
     }
     this.showBuffer = false;
-
   }
   async deletePlayer(player: any): Promise<any> {
     const response = await axios.delete(

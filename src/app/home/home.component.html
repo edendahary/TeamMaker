@@ -107,12 +107,11 @@
                 </span>
                 }
                 {{item.overall_grade}}
-
+                 @if (item.overall_grade >= 4.2) {
+              <fa-icon style="color: #f8b739; font-size: 20px;" [icon]="faFire"></fa-icon>
+            }  
               </div>
             </small>
-            <!-- @if (item.overall_grade >= 4.2) {
-              <app-particle-animation></app-particle-animation>
-            }   -->
             </div>
             <div class="col-6 text-end p-2">
               <button
