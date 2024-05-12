@@ -3,11 +3,18 @@ import { Player } from '../home/home.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import axios from 'axios';
+import {
+  faStar,
+  faStarHalfAlt,
+  faFire,
+} from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-teams',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, FontAwesomeModule],
   templateUrl: './teams.component.html',
   styleUrl: './teams.component.css',
 })
@@ -25,6 +32,12 @@ export class TeamsComponent implements OnInit {
     'cyan',
     'magenta',
   ];
+  faFire = faFire;
+  faStar = faStar;
+  faStarHalfAlt = faStarHalfAlt;
+  faStarEmpty = faStarEmpty;
+
+  showHalfStar = true;
   // private apiUrl = 'http://localhost:3000/api/'; // Local IP
   // private apiUrl = `https://192.168.1.112:3000/api/`; // my PC IP
   private apiUrl = 'https://teammaker-5.onrender.com/api/'; // render.com own server IP
@@ -113,7 +126,8 @@ export class TeamsComponent implements OnInit {
         this.teams = this.allTeams[0];
         this.showContext = 1;
       }
-    } else {// this.activeTeams == 3
+    } else {
+      // this.activeTeams == 3
 
       if (this.allPlayers.length < 15) {
         this.Message = 'You dont have 15 players. Please add more';
@@ -240,6 +254,21 @@ export class TeamsComponent implements OnInit {
     this.counter++;
     if (this.counter >= this.allTeams.length) {
       this.counter = 0;
+    }
+  }
+
+  getStarIcon(num: number, grade: number) {
+    if (num <= grade) {
+      return this.faStar;
+    } else if (
+      num > grade &&
+      num < grade + 1 &&
+      grade % 1 >= 0.5 &&
+      this.showHalfStar
+    ) {
+      return this.faStarHalfAlt;
+    } else {
+      return this.faStarEmpty;
     }
   }
 }
