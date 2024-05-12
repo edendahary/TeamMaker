@@ -93,7 +93,7 @@
     <div class="row p-5">
       @for (team of teams; track $index) {
       <div class="col-md-{{ colNumber }} p-2">
-        <div class="card" style="background-color: #ccc; border: 3px solid #ccc;" >
+        <div class="card" style=" border: 3px solid #ccc;" >
           <div class="card-header" [style.background-color]="team.teamColor">
             <div class="row">
               <div class="col-12 text-center" >Team {{ $index + 1 }}</div>
@@ -106,8 +106,8 @@
           </div>
           @for (player of team.team; track $index) {
           <div class="card-body">
-            <div class="row" style="border: 3px solid #ccc; border-radius: 10px; padding: 10px;">
-              <div class="col-3 overflow-hidden text-nowrap text-truncate">{{ player.name }}</div>
+            <div class="row" [style.background-color]="team.teamColor" style="border: 3px solid #ccc; border-radius: 10px; padding: 10px; font-weight: bold;">
+              <div class="col-3 overflow-hidden text-nowrap text-truncate" >{{ player.name }}</div>
                 <div class="col-6 star-rating text-center">
                 @for (num of [1, 2, 3, 4, 5]; track $index) {
                 <span class="star" style="pointer-events: none;">
