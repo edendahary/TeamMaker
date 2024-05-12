@@ -41,14 +41,14 @@
             (click)="toggleButton($index)"
           >
             <div class="row">
-              <div class="col-3">
+              <div class="col-1">
                 {{ $index + 1 }}
               </div>
-              <div class="col-2 overflow-hidden text-nowrap text-truncate" style="font-weight: bold;">
+              <div class="col-4 overflow-hidden text-nowrap text-truncate" style="font-weight: bold;">
                  {{ player.name }}
               </div>
-              <div class="col-3 ">
-                <div class="star-rating text-end">
+              <div class="col-4 ">
+                <div class="star-rating text-center">
                 @for (num of [1, 2, 3, 4, 5]; track $index) {
                 <span class="star" style="pointer-events: none;">
                      <fa-icon [icon]="getStarIcon(num, player.overall_grade)"></fa-icon>
@@ -56,7 +56,7 @@
                 }
                 </div>
                 </div>
-                <div class="col-4 text-end">
+                <div class="col-3 text-end">
                   {{player.overall_grade}}
                    @if (player.overall_grade >= 4.2) {
   
