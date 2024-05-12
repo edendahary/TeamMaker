@@ -1,8 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Player } from '../home/home.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import axios from 'axios';
+import { Tooltip } from 'bootstrap';
+
 import {
   faStar,
   faStarHalfAlt,
@@ -18,7 +20,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   templateUrl: './teams.component.html',
   styleUrl: './teams.component.css',
 })
-export class TeamsComponent implements OnInit {
+export class TeamsComponent implements OnInit, AfterViewInit {
+
+  ngAfterViewInit() {
+    var tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-toggle="tooltip"]')
+    );
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new Tooltip(tooltipTriggerEl);
+    });
+  }
+
   @ViewChild('myModal') model: ElementRef | undefined;
   Message: string = '';
   data: any;

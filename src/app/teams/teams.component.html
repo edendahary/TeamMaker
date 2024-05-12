@@ -44,7 +44,7 @@
               <div class="col-2">
                 {{ $index + 1 }}
               </div>
-              <div class="col-3 overflow-hidden text-nowrap text-truncate" style="font-weight: bold;">
+              <div class="col-3 overflow-hidden text-nowrap text-truncate" style="font-weight: bold;" data-toggle="tooltip" data-placement="top" [title]="player.name">
                  {{ player.name }}
               </div>
               <div class="col-4">
@@ -107,7 +107,7 @@
           @for (player of team.team; track $index) {
           <div class="card-body">
             <div class="row" [style.background-color]="team.teamColor" style="border: 3px solid #ccc; border-radius: 10px; padding: 10px; font-weight: bold;">
-              <div class="col-3 overflow-hidden text-nowrap text-truncate" >{{ player.name }}</div>
+              <div class="col-3 overflow-hidden text-nowrap text-truncate" data-toggle="tooltip" data-placement="top" [title]="player.name">{{ player.name }}</div>
                 <div class="col-6 star-rating text-center">
                 @for (num of [1, 2, 3, 4, 5]; track $index) {
                 <span class="star" style="pointer-events: none;">
